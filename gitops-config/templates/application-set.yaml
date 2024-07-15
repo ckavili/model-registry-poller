@@ -19,9 +19,9 @@ spec:
       - path: gitops-config/{{ .name }}/**/config.yaml
   template:
     metadata:
-      name: {{` '{{ .appname }}-{{ .namespace }}' `}}
+      name: {{` '{{ .name }}-{{ .namespace }}' `}}
       labels:
-        app.kubernetes.io/instance: {{` '{{ .appname }}-{{ .namespace }}' `}}
+        app.kubernetes.io/instance: {{` '{{ .name }}-{{ .namespace }}' `}}
     spec:
       destination:
         server: https://kubernetes.default.svc
@@ -30,7 +30,7 @@ spec:
       sources:
         - helm:
             valueFiles:
-              - "$app-values/{{`{{ .namespace }}/{{ .appname }}`}}/config.yaml"
+              - "$app-values/{{`{{ .namespace }}/{{ .name }}`}}/config.yaml"
             # values: |
             #   storage_uri: {{` '{{ .storage_uri }}' `}}
           path: model-deployment

@@ -4,12 +4,14 @@ import time
 from model_registry import ModelRegistry
 
 # Read URLs from environment variables
-model_registry_url = os.getenv("MODEL_REGISTRY_URL", "http://model-registry-service.kubeflow.svc.cluster.local:8080/api/model_registry/v1alpha3/registered_models")
+model_registry_base_url = os.getenv("MODEL_REGISTRY_URL", "model-registry-service.kubeflow.svc.cluster.local")
+model_registry_rest_url = f"http://{model_registry_base_url}:8080"
+model_registry_api_path = "/api/model_registry/v1alpha3/registered_models"
 event_listener_url = os.getenv("EVENT_LISTENER_URL", "http://el-model-registry-webhook.cansu.svc.cluster.local:8080")
 
 # Initialize the ModelRegistry client
 registry = ModelRegistry(
-    server_address="model-registry-service.kubeflow.svc.cluster.local",
+    server_address=model_registry_base_url,
     port=9090,
     author="Tekton Pipeline",
     is_secure=False
@@ -20,7 +22,7 @@ processed_models = {}
 
 # Function to get model registry data
 def get_model_registry_data():
-    response = requests.get(model_registry_url)
+    response = requests.get(f"{model_registry_rest_url}{model_registry_api_path}")
     if response.status_code == 200:
         return response.json().get('items', [])
     else:
@@ -30,7 +32,7 @@ def get_model_registry_data():
 
 # Function to get the latest version number and stage for a model based on lastUpdateTimeSinceEpoch
 def get_latest_version(model_id):
-    versions_url = f"{model_registry_url}/{model_id}/versions"
+    versions_url = f"{model_registry_rest_url}{model_registry_api_path}/{model_id}/versions"
     response = requests.get(versions_url)
     if response.status_code == 200:
         versions = response.json().get('items', [])

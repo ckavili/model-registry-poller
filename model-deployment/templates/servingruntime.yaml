@@ -9,7 +9,6 @@ metadata:
     opendatahub.io/template-display-name: OpenVINO Model Server
     opendatahub.io/template-name: kserve-ovms
     openshift.io/display-name: {{ .Values.name }}
-  resourceVersion: '7052222'
   name: {{ .Values.name }}
   labels:
     opendatahub.io/dashboard: 'true'

@@ -2,5 +2,5 @@
 name: fraud-detection
 model_format_name: onnx
 model_format_version: 1
-storage_uri: "s3://minio-service:9000/model.onnx"
+storage_uri: "s3://minio-service:9000/model/fraud-detection-2407141509.onnx"
 namespace: fraud-detection-dev

@@ -14,7 +14,7 @@ spec:
   generators:
   - git:
       repoURL: https://github.com/ckavili/model-registry-poller.git
-      revision: master
+      revision: main
       files:
       - path: gitops-config/{{ .name }}/**/config.yaml
   template:

@@ -11,7 +11,6 @@ metadata:
     openshift.io/display-name: {{ .Values.name }}
   resourceVersion: '7052222'
   name: {{ .Values.name }}
-  namespace: cansu
   labels:
     opendatahub.io/dashboard: 'true'
 spec:

@@ -1,0 +1,26 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app-of-appsets
+  namespace: mlops-gitops
+  labels:
+    app.kubernetes.io/instance: app-of-mlops
+spec:
+  destination:
+    server: 'https://kubernetes.default.svc'
+  project: default
+  source:
+    helm:
+      valueFiles:
+        - namespace-values.yaml
+    path: .
+    repoURL: 'https://github.com/ckavili/model-registry-poller.git'
+    path: gitops-config
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

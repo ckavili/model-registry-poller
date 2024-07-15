@@ -1,0 +1,33 @@
+---
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  annotations:
+    openshift.io/display-name: {{ .Values.name }}
+    security.opendatahub.io/enable-auth: 'true'
+    serving.knative.openshift.io/enablePassthrough: 'true'
+    sidecar.istio.io/inject: 'true'
+    sidecar.istio.io/rewriteAppHTTPProbers: 'true'
+  name: {{ .Values.name }}
+  labels:
+    opendatahub.io/dashboard: 'true'
+spec:
+  predictor:
+    maxReplicas: 1
+    minReplicas: 1
+    model:
+      modelFormat:
+        name: {{ .Values.model_format_name }}
+        version: {{ .Values.model_format_version | quote  }}
+      name: ''
+      resources:
+        limits:
+          cpu: '2'
+          memory: 8Gi
+        requests:
+          cpu: '1'
+          memory: 4Gi
+      runtime: {{ .Values.name }}
+      storage:
+        key: aws-connection-minio
+        path: {{ trimPrefix "s3://" .Values.storage_uri }}

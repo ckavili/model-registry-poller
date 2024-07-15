@@ -30,13 +30,13 @@ spec:
       sources:
         - helm:
             valueFiles:
-              - "$app-values/{{`{{ .namespace }}/{{ .name }}`}}/config.yaml"
+              - "$app-values/gitops-config/{{`{{ .namespace }}/{{ .name }}`}}/config.yaml"
             # values: |
             #   storage_uri: {{` '{{ .storage_uri }}' `}}
           path: model-deployment
           repoURL: 'https://github.com/ckavili/model-registry-poller.git'
           targetRevision: HEAD
-        - path: gitops-config
+        - path: .
           ref: app-values
           repoURL: "https://github.com/ckavili/model-registry-poller.git"
           targetRevision: HEAD
